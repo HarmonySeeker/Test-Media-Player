@@ -2,16 +2,19 @@ using RenderHeads.Media.AVProVideo;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
-public class PlaylistSetup : MonoBehaviour
+public class PlaylistLogic : MonoBehaviour
 {
     private PlaylistMediaPlayer pmp;
+    [SerializeField]
+    private TMP_Text videoName;
 
-    private List<string> videoLinks = new List<string> {
-        "https://storage.yandexcloud.net/viavr.global/CARTOONS/Peppa_Pig/Peppa_Pig_s01e40_Daddy_Gets_Fit.mp4",
-        "https://storage.yandexcloud.net/viavr.global/CARTOONS/Peppa_Pig/Peppa_Pig_s01e41_Shopping.mp4",
-        "https://storage.yandexcloud.net/viavr.global/CARTOONS/Peppa_Pig/Peppa_Pig_s01e38_Sleepy_Princess.mp4"
+    private Dictionary<string, string> videoInfo = new Dictionary<string, string> {
+        { "https://storage.yandexcloud.net/viavr.global/CARTOONS/Peppa_Pig/Peppa_Pig_s01e40_Daddy_Gets_Fit.mp4", "1. Свинка Пеппа: 40. Папа решил стать стройным"},
+        { "https://storage.yandexcloud.net/viavr.global/CARTOONS/Peppa_Pig/Peppa_Pig_s01e41_Shopping.mp4", "2. Свинка Пеппа: 41. Супермаркет" },
+        { "https://storage.yandexcloud.net/viavr.global/CARTOONS/Peppa_Pig/Peppa_Pig_s01e38_Sleepy_Princess.mp4", "3. Свинка Пеппа: 38. Спящая принцесса" }
     };
 
     private void Awake()
@@ -37,14 +40,47 @@ public class PlaylistSetup : MonoBehaviour
         int playlistItemIndex = pmp.PlaylistIndex;
 
         // Build the playlist
-        
-        foreach (string link in videoLinks)
+
+        foreach (KeyValuePair<string, string> infoEntry in videoInfo)
         {
             MediaPlaylist.MediaItem item = new MediaPlaylist.MediaItem();
             
-            item.mediaPath = new MediaPath(link, MediaPathType.AbsolutePathOrURL);
+            item.mediaPath = new MediaPath(infoEntry.Key, MediaPathType.AbsolutePathOrURL);
+            item.startMode = PlaylistMediaPlayer.StartMode.Manual;
+            item.name = infoEntry.Value;
             pmp.Playlist.Items.Add(item);
+
+            if (videoName.text == "")
+            {
+                videoName.text = item.name;
+            }
+
+            Debug.Log(infoEntry.Value);
         }
+    }
+
+    private void SwitchTo(int idx)
+    {
+        if (pmp.CanJumpToItem(idx))
+        {
+            pmp.JumpToItem(idx);
+            videoName.text = pmp.PlaylistItem.name;
+        }
+    }
+
+    private void Next()
+    {
+
+    }
+
+    private void Previous()
+    {
+
+    }
+
+    private void LoadText()
+    {
+
     }
 
     private void Custom()
