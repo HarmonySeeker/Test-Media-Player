@@ -78,26 +78,27 @@ public class PlaylistLogic : MonoBehaviour
 
     private void SwitchTo(int idx)
     {
-        if (pmp.CanJumpToItem(idx))
+        if (pmp.CanJumpToItem(idx) && pmp.PlaylistIndex != idx)
         {
             pmp.JumpToItem(idx);
             videoName.text = pmp.PlaylistItem.name;
+            Debug.Log($"Switching video to {idx}");
         }
     }
 
-    private void Next()
+    private bool Next()
     {
-
+        return pmp.NextItem();
     }
 
-    private void Previous()
+    private bool Previous()
     {
-
+        return pmp.PrevItem();
     }
 
-    private void LoadText()
+    private void LoadText(string text)
     {
-
+        videoName.text = text;
     }
 
     private void Custom()

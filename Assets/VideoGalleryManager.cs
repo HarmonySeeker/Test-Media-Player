@@ -18,20 +18,28 @@ public class VideoGalleryManager : MonoBehaviour
             GameObject vid = Instantiate(videoUnitPrefab, transform);
             VideoPreviewUnit unit = vid.GetComponent<VideoPreviewUnit>();
 
-            StartCoroutine(DownloadImage(link.Value, unit.videoThumbnail));
+            StartCoroutine(DownloadImage(link.Value, unit.videoThumbnail, unit.loadingRing));
             unit.GetComponent<Button>().onClick.AddListener(delegate { switchVideoFunc(link.Key); });
             unit.videoIdx = link.Key;
         }
     }
 
-    IEnumerator DownloadImage(string MediaUrl, Image videoThumbnail)
+    IEnumerator DownloadImage(string MediaUrl, Image videoThumbnail, Image loadingThumbnail)
     {
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(MediaUrl);
         yield return request.SendWebRequest();
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        {
             Debug.Log(request.error);
+        }
         else
+        {
             videoThumbnail.sprite = Sprite.Create(((DownloadHandlerTexture)request.downloadHandler).texture, new Rect(0, 0, 512, 256), new Vector2());
+            videoThumbnail.color = Color.white;
+            loadingThumbnail.enabled = false;
+        }
+
+
     }
 
     public void InitializeVideo((int, Sprite) value)

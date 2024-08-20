@@ -8,7 +8,8 @@ public class VideoPreviewUnit : MonoBehaviour
 {
     public int videoIdx;
     public Image videoThumbnail;
-    
+    public Image loadingRing;
+        
     public void SetVideo(int idx, Sprite thumbnail)
     {
         videoIdx = idx;
