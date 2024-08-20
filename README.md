@@ -1,5 +1,7 @@
 # Test-Media-Player
- 
+
+Сцена с тестовым заданием распологается по пути: \Assets\Scenes\SampleScene.unity
+
 Unity Version: 2020.3.7f1
 
 Использованные ассеты:
