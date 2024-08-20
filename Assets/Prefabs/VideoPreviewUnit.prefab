@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoIdx: 0
   videoThumbnail: {fileID: 3156103314458345784}
-  loadingRing: {fileID: 0}
+  loadingRing: {fileID: 1190118793388602146}
 --- !u!114 &-4767511725150165660
 MonoBehaviour:
   m_ObjectHideFlags: 0
