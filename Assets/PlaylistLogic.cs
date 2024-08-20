@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using static RenderHeads.Media.AVProVideo.MediaPlaylist;
 using static System.Net.WebRequestMethods;
 
 public class PlaylistLogic : MonoBehaviour
@@ -42,7 +43,7 @@ public class PlaylistLogic : MonoBehaviour
 
         // Query the playlist
         int playlistSize = pmp.Playlist.Items.Count();
-        MediaPlaylist.MediaItem currentItem = pmp.PlaylistItem;
+        MediaItem currentItem = pmp.PlaylistItem;
 
         if (currentItem != null)
         {
@@ -55,11 +56,12 @@ public class PlaylistLogic : MonoBehaviour
 
         foreach (KeyValuePair<int, (string, string, string)> infoEntry in videoInfo)
         {
-            MediaPlaylist.MediaItem item = new MediaPlaylist.MediaItem();
-            
-            item.mediaPath = new MediaPath(infoEntry.Value.Item2, MediaPathType.AbsolutePathOrURL);
-            item.startMode = PlaylistMediaPlayer.StartMode.Manual;
-            item.name = infoEntry.Value.Item1;
+            MediaItem item = new MediaItem
+            {
+                mediaPath = new MediaPath(infoEntry.Value.Item2, MediaPathType.AbsolutePathOrURL),
+                startMode = PlaylistMediaPlayer.StartMode.Manual,
+                name = infoEntry.Value.Item1
+            };
 
             pmp.Playlist.Items.Add(item);
 
@@ -69,8 +71,6 @@ public class PlaylistLogic : MonoBehaviour
             }
 
             previewLinks.Add(infoEntry.Key, infoEntry.Value.Item3);
-
-            Debug.Log(infoEntry.Value);
         }
 
         videoGalleryManager.SetLinks(previewLinks, SwitchTo);

@@ -59,11 +59,11 @@ public class VideoGalleryManager : MonoBehaviour
 
         try
         {
-            if (File.Exists(savePath + fileName))
+            if (File.Exists(Path.Combine(savePath, fileName)))
             {
                 byte[] bytes = File.ReadAllBytes(Path.Combine(savePath, fileName));
                 Texture2D texture = new Texture2D(width, height);
-                texture.LoadRawTextureData(bytes);
+                texture.LoadImage(bytes);
                 Debug.Log($"Loading preview texture from {Path.Combine(savePath, fileName)}");
                 return texture;
             }
@@ -85,7 +85,7 @@ public class VideoGalleryManager : MonoBehaviour
             {
                 Directory.CreateDirectory(savePath);
             }
-            File.WriteAllBytes(Path.Combine(savePath, filename), image.GetRawTextureData());
+            File.WriteAllBytes(Path.Combine(savePath, filename), image.EncodeToPNG());
             Debug.Log($"Saving preview texture to {Path.Combine(savePath, filename)}");
         }
         catch (Exception e)
