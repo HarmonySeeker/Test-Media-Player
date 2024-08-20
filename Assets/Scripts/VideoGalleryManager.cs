@@ -13,12 +13,14 @@ public class VideoGalleryManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject videoUnitPrefab;
+    [SerializeField]
+    private GameObject thumbnailGrid;
 
     public void SetLinks(Dictionary<int, string> previewLinks, Action<int> switchVideoFunc)
     {
         foreach(var link in previewLinks)
         {
-            GameObject vid = Instantiate(videoUnitPrefab, transform);
+            GameObject vid = Instantiate(videoUnitPrefab, thumbnailGrid.transform);
             VideoPreviewUnit unit = vid.GetComponent<VideoPreviewUnit>();
 
             StartCoroutine(DownloadImage(link.Value, unit.videoThumbnail, unit.loadingRing));
