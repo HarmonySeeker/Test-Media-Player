@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class PopupScript : MonoBehaviour
 {
     private RectTransform rectTransform;
-    [Range(0f, 1f), SerializeField]
-    private float closeF;
-    [Range(0f, 1f), SerializeField]
-    private float openF;
+
+    [SerializeField]
+    private Button closeButton;
+    [SerializeField]
+    private Button openButton;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        openButton.onClick.AddListener(Open);
+        closeButton.onClick.AddListener(Close);
     }
 
     public void Open()

@@ -1,11 +1,8 @@
-using RenderHeads.Media.AVProVideo;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -65,8 +62,10 @@ public class VideoGalleryManager : MonoBehaviour
             {
                 byte[] bytes = File.ReadAllBytes(Path.Combine(savePath, fileName));
                 Texture2D texture = new Texture2D(width, height);
+
                 texture.LoadImage(bytes);
-                Debug.Log($"Loading preview texture from {Path.Combine(savePath, fileName)}");
+                //Debug.Log($"Loading preview texture from {Path.Combine(savePath, fileName)}");
+
                 return texture;
             }
 
@@ -74,6 +73,7 @@ public class VideoGalleryManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log(e.Message);
             return null;
         }
     }
@@ -88,31 +88,11 @@ public class VideoGalleryManager : MonoBehaviour
                 Directory.CreateDirectory(savePath);
             }
             File.WriteAllBytes(Path.Combine(savePath, filename), image.EncodeToPNG());
-            Debug.Log($"Saving preview texture to {Path.Combine(savePath, filename)}");
+            //Debug.Log($"Saving preview texture to {Path.Combine(savePath, filename)}");
         }
         catch (Exception e)
         {
             Debug.Log(e.Message);
-        }
-    }
-
-    public void InitializeVideo((int, Sprite) value)
-    {
-        GameObject vid = Instantiate(videoUnitPrefab, transform);
-        VideoPreviewUnit unit = vid.GetComponent<VideoPreviewUnit>();
-
-        unit.SetVideo(value.Item1, value.Item2);
-    }
-
-
-    public void InitializeVideos(List<(int, Sprite)> values)
-    {
-        foreach (var v in values)
-        {
-            GameObject vid = Instantiate(videoUnitPrefab, transform);
-            VideoPreviewUnit unit = vid.GetComponent<VideoPreviewUnit>();
-
-            unit.SetVideo(v.Item1, v.Item2);
         }
     }
 }
