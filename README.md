@@ -1,5 +1,7 @@
 # Test-Media-Player
 
+Simple AVPro Video playlist in World Space Canvas made as a test task 
+
 Сцена с тестовым заданием распологается по пути: **_\Assets\Scenes\SampleScene.unity_**
 
 Unity Version: **2020.3.7f1**
